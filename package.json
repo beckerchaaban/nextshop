@@ -1,0 +1,14 @@
+{
+  "name": "nextshop",
+  "version": "1.0.0",
+  "description": "A starter app for the Nextshop store in React and NextJs",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Becker Chaaban",
+  "license": "ISC",
+  "dependencies": {
+
+  }
+}
