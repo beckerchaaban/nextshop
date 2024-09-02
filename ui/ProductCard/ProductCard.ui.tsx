@@ -1,22 +1,14 @@
 import React from 'react';
-import { Dialog, DialogDescription, DialogPanel, DialogTitle } from '@headlessui/react';
+import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
+import { Product } from '../../interfaces/Product';
 
-interface ProductCardProps {
-  product: {
-    id: number;
-    name: string;
-    price: string;
-    imageUrl: string;
-    description: string;
-  };
-}
-
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+interface ProductCardProps extends Product {}
+const ProductCard = ({...product}:ProductCardProps) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg">
-      <img className="w-full h-48 object-cover" src={product.imageUrl} alt={product.name} />
+      <img className="w-full h-48 object-cover" src={product.imgUrl} alt={product.name} />
       <div className="px-6 py-4">
         <div className="font-bold text-xl mb-2">{product.name}</div>
         <p className="text-gray-700 text-base">{product.description}</p>
