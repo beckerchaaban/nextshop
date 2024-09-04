@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
-      "target": "es5",
+      "target": "ES2015", // or "ES2020", "ESNext", etc.
+      "lib": ["ES2015", "DOM"], // Include ES2015 or later
       "module": "commonjs",
       "jsx": "react",
       "strict": true,
