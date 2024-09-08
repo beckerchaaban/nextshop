@@ -6,6 +6,7 @@
       "jsx": "react",
       "strict": true,
       "esModuleInterop": true,
-      "baseUrl": "./"
-    }
+      "baseUrl": "./",
+    },
+    "files": ["svg.d.ts"]
   }

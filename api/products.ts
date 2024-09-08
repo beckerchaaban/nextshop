@@ -1,9 +1,9 @@
-import { Product } from 'interfaces/Product';
+
 import { client } from './client';
 import { AppThunkAction } from '.';
 import { Action, Reducer } from '@reduxjs/toolkit';
-import { _ResultResponse } from 'interfaces/_ResultResponse';
-
+import { Product } from '../interfaces/Product';
+import { _ResultResponse } from '../interfaces/_ResultResponse';
 export interface ProductsState {
   Products: Product[];
   Product: Product;

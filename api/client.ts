@@ -8,7 +8,13 @@ class HttpClient {
     }
   
     async get(endpoint: string): Promise<any> {
-      const response = await fetch(`${this.baseUrl}${endpoint}`);
+      const response = await fetch(`${this.baseUrl}${endpoint}`,{
+        method:'GET',
+        credentials:'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -18,6 +24,7 @@ class HttpClient {
     async post(endpoint: string, data: any): Promise<any> {
       const response = await fetch(`${this.baseUrl}${endpoint}`, {
         method: 'POST',
+        credentials:'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -32,6 +39,7 @@ class HttpClient {
     async put(endpoint: string, data: any): Promise<any> {
       const response = await fetch(`${this.baseUrl}${endpoint}`, {
         method: 'PUT',
+        credentials:'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -46,6 +54,7 @@ class HttpClient {
     async delete(endpoint: string): Promise<any> {
       const response = await fetch(`${this.baseUrl}${endpoint}`, {
         method: 'DELETE',
+        credentials:'include',
       });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
