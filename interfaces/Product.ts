@@ -1,3 +1,4 @@
+import {ProductInventory} from './ProductInventory'
 export interface Product {
 
     id: string;
@@ -18,4 +19,5 @@ export interface Product {
     createdBy: string;
     imgUrl?: string;
     imgAlt?: string;
+    productInventories:ProductInventory[];
 }
