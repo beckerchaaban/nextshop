@@ -29,7 +29,7 @@ const QuantityField: React.FC<QuantityFieldProps> = ({ quantity = 1, onHandle })
         type="number"
         value={quantity}
         readOnly
-        className="w-12 text-center border border-x-gray-500 border-y-0  h-12"
+        className="w-12 text-center border border-x-slate-400 border-y-0  h-12"
         style={{
             appearance: 'none',           // Standard property for hiding arrows
             WebkitAppearance: 'none',     // For Chrome/Safari
