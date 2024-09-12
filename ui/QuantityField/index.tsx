@@ -7,13 +7,11 @@ interface QuantityFieldProps {
 }
 
 const QuantityField: React.FC<QuantityFieldProps> = ({ quantity = 1, onHandle }) => {
-  useEffect(() => {
-    // Call the onHandle function whenever quantity changes
-    onHandle(quantity);
-  }, [quantity, onHandle]);
+ 
 
   const handleIncrease = () => {
     onHandle(quantity + 1);
+    console.log('quantity',quantity + 1);
   };
 
   const handleDecrease = () => {
