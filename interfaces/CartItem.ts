@@ -12,4 +12,5 @@ export interface CartItem {
 export interface CartItemCreate {
     productId: string;
     quantity: number;
+    selectedVariants:string[];
 }

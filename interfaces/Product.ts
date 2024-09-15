@@ -1,4 +1,5 @@
 import {ProductInventory} from './ProductInventory'
+import {ProductVariant} from './ProductVariant'
 export interface Product {
 
     id: string;
@@ -19,5 +20,6 @@ export interface Product {
     createdBy: string;
     imgUrl?: string;
     imgAlt?: string;
-    productInventories:ProductInventory[];
+    inventories:ProductInventory[];
+    variants:ProductVariant[]
 }

@@ -38,7 +38,8 @@ export const defaultProduct: Product = {
   name: '',
   ocrNumber: 0,
   sku: '',
-  productInventories:[]
+  inventories:[],
+  variants:[]
 };
 
 // Initial state

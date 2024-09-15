@@ -8,6 +8,7 @@ import QuantityField from "../QuantityField";
 import { ProductInventory } from "../../interfaces/ProductInventory";
 import { CaretRight, Warehouse, X } from "@phosphor-icons/react";
 import Divider from "../Divider";
+import VariantSelector from '../VariantSelector';
 // Product Image Component
 const ProductImage: React.FC<{ src?: string; alt?: string }> = ({
   src,
@@ -114,9 +115,10 @@ const ProductDetails: React.FC<{
   onAddToCart: (productId: CartItemCreate) => void;
 }> = ({ data, onAddToCart }) => {
   const [quantity, setQuantity] = useState(1);
+  const [selectedVariants, setSelectedVariants] = useState<string[]>([])
   const Cart = useNextshopApiSelector((state) => state.cart.Cart);
   const handleAddToCart = () => {
-    onAddToCart({ productId: data.id, quantity: quantity });
+    onAddToCart({ productId: data.id, quantity, selectedVariants });
   };
   useEffect(() => {
     setQuantity(1);
@@ -126,7 +128,7 @@ const ProductDetails: React.FC<{
        <h1 className="text-2xl font-semibold">{data.name}</h1>
        <p className="mt-2 text-gray-600">{data.description}</p>
       <p className="text-xl font-bold pb-4">{data.price}:-</p>
-      <InventoryStatus inventories={data.productInventories} />
+      <InventoryStatus inventories={data.inventories} />
       <div className="flex gap-4 pt-4">
         <QuantityField onHandle={setQuantity} quantity={quantity} />
         <button
@@ -138,7 +140,7 @@ const ProductDetails: React.FC<{
         </button>
       </div>
       <Divider />
-      <div>[other_stuff]</div>
+      <VariantSelector variants={data.variants} onSelect={setSelectedVariants}/>
     </div>
   );
 };
