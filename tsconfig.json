@@ -8,5 +8,9 @@
       "esModuleInterop": true,
       "baseUrl": "./",
     },
-    "files": ["svg.d.ts"]
+    "include": [
+      "**/*.ts", // Include all TypeScript files
+      "**/*.tsx", // Include all TSX files
+      "svg.d.ts" // Explicitly include the svg.d.ts file
+    ],
   }

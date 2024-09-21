@@ -11,6 +11,7 @@ export interface Cart {
     deliveryAddress?: string;
     deliveryCity?: string;
     deliveryPostCode?: string;
+    totalPrice:number;
     cartItems: CartItem[];
 }
 

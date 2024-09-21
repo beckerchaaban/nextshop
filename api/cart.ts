@@ -39,6 +39,7 @@ export const defaultCart: Cart = {
   createdAt: "",
   id: "",
   quantity: 0,
+  totalPrice:0,
   sessionId: "",
   deliveryAddress: "",
   deliveryCity: "",
@@ -57,6 +58,7 @@ const defaultCartItem: CartItem = {
   id: "",
   totalPrice: 0,
   unitPrice: 0,
+  imagePath:''
 };
 // Initial state
 const initialState: CartState = {
@@ -115,17 +117,23 @@ export const reducer: Reducer<CartState> = (
       return state;
   }
 };
+const _getCart = async (dispatch: (action: KnownAction) => void) => {
+  try {
+  const response = (await client.get("/cart")) as _ResultResponse<Cart>;
+  
+  if (response.result) {
+    dispatch({ type: "api/getCart", cart: response.result });
+  }
+} catch (error) {
+  console.error("Error fetching cart:", error);
+}
+}
 
 // Thunk function to sfetch all products
 export const getCart = (): AppThunkAction<KnownAction> => {
-  return async (dispatch, getState) => {
-    try {
-      const response = (await client.get("/cart")) as _ResultResponse<Cart>;
-      response.result &&
-        dispatch({ type: "api/getCart", cart: response.result });
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    }
+  return async (dispatch) => {
+    _getCart(dispatch);
+   
   };
 };
 
@@ -161,17 +169,8 @@ export const updateCartItem = (
         field,
         value,
       })) as _ResultResponse<CartItem>;
-      if (response.isValid && response.result) {
-        dispatch({
-          type: "api/getCart",
-          cart: {
-            ...state.cart.Cart,
-            cartItems: state.cart.Cart.cartItems.map((x) =>
-              x.id === cartItemId ? response.result ?? defaultCartItem : x
-            ),
-          },
-        });
-      }
+      console.log( 'update', response.isValid )
+      response.isValid && _getCart(dispatch)
     } catch (error) {
       console.error("Error updating cart item:", error);
     }
@@ -187,16 +186,8 @@ export const removeCartItem = (
       const response = (await client.delete(
         `/cart/item/${cartItemId}`
       )) as _ResultResponse<null>;
-      response.isValid &&
-        dispatch({
-          type: "api/getCart",
-          cart: {
-            ...state.cart.Cart,
-            cartItems: state.cart.Cart.cartItems.filter(
-              (x) => x.id !== cartItemId
-            ),
-          },
-        });
+      response.isValid && _getCart(dispatch)
+      
     } catch (error) {
       console.error("Error fetching product:", error);
     }

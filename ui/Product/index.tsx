@@ -6,7 +6,7 @@ import { createCartItem } from "../../api/cart";
 import { CartItemCreate } from "../../interfaces/CartItem";
 import QuantityField from "../QuantityField";
 import { ProductInventory } from "../../interfaces/ProductInventory";
-import { CaretRight, Warehouse, X } from "@phosphor-icons/react";
+import {  CaretRight, Plus, Warehouse, X } from "@phosphor-icons/react";
 import Divider from "../Divider";
 import VariantSelector from '../VariantSelector';
 // Product Image Component
@@ -65,7 +65,7 @@ const InventoryStatus = ({ inventories }: InventoryStatusProps) => {
       >
         <div className="fixed inset-0 bg-black opacity-30" aria-hidden="true" />
         <div className="flex items-center justify-end min-h-screen p-4">
-          <Dialog.Panel className="bg-white rounded-lg shadow-lg p-6 w-96 z-50 min-h-screen flex flex-col">
+          <DialogPanel className="bg-white rounded-lg shadow-lg p-6 w-96 z-50 min-h-screen flex flex-col">
             <DialogTitle className="text-xl font-bold flex items-center justify-between">
               <span>Lager</span>
               <button
@@ -103,7 +103,7 @@ const InventoryStatus = ({ inventories }: InventoryStatusProps) => {
                 ))}
               </ul>
             </div>
-          </Dialog.Panel>
+          </DialogPanel>
         </div>
       </Dialog>
     </>
@@ -133,10 +133,11 @@ const ProductDetails: React.FC<{
         <QuantityField onHandle={setQuantity} quantity={quantity} />
         <button
           onClick={handleAddToCart}
-          className="bg-blue-600 text-white py-2 px-6 w-full font-semibold text-sm hover:bg-blue-700 transition rounded"
+          className="bg-blue-600 text-white py-2 px-6 w-full font-semibold text-sm hover:bg-blue-700 h-16 transition rounded flex justify-between items-center"
           disabled={!data.isPurchasable}
         >
-          Lägg till i Varukorgen
+         <span> Lägg till i Varukorgen</span>
+         <Plus size={24} />
         </button>
       </div>
       <Divider />
