@@ -19,6 +19,7 @@ import { Cart } from "../../interfaces/Cart";
 import { useParams } from "next/navigation";
 import TextBox from "../../ui/TextBox";
 import CheckBox from "../../ui/CheckBox";
+import Dropdown, { DropdownOption } from "../../ui/Dropdown";
 
 interface CartItemProps {
   item: CartItem;
@@ -87,6 +88,7 @@ const CheckoutSteps = () => {
   const [openSteps, setOpenSteps] = useState<stepType[]>(["details"]);
   const [completedSteps, setCompletedSteps] = useState<stepType[]>([]);
   const[isSameAsAddress, setIsSameAsAddress] = useState(true);
+  const [deliveryCountry, setDeliveryCountry] = useState<DropdownOption>();
   const { type } = useParams() as CheckoutParams;
 
   const completeDetails = () => {
@@ -136,6 +138,7 @@ const CheckoutSteps = () => {
               )}
               {openSteps.includes("details") && !completedSteps.includes("details") && (
                   <div className="flex flex-col gap-4">
+                    <Dropdown label='Land' placeHolder="Välj land" options={[{label:'test',value:'test'},{label:'test 2',value:'test2'}]} value={deliveryCountry?.value} onChange={setDeliveryCountry}/>
                       <TextBox label="E-postadress" />
                       <h2 className="font-bold text-black">Leveransadress</h2>
                       <div className="flex gap-4 items-center w-full">
@@ -227,7 +230,12 @@ const CheckoutSteps = () => {
 };
 const CartItemComponent: React.FC<CartItemProps> = ({ item }) => {
   return (
-    <div className="flex items-center gap-6 p-4 border-b border-slate-400">
+    <div className="flex items-center gap-6 py-4 border-b border-slate-400">
+            <img
+        src={item.imagePath} // Use the image path from the item
+        alt=""
+        className="w-20 h-20 object-cover border-0" // Adjust size and styling as needed
+      />
       <div className="flex-grow">
         <h3 className="text-base">{item.description}</h3>
         <div className="flex items-center justify-between mt-2">
@@ -244,7 +252,7 @@ const CartItemComponent: React.FC<CartItemProps> = ({ item }) => {
       </div>
       <div className="flex flex-col items-end">
         <label className="text-xs text-gray-500">Totalt</label>
-        <p className="text-base font-bold text-gray-500">
+        <p className="text-base font-bold">
           {item.totalPrice.toLocaleString(undefined, {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
