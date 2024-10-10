@@ -36,7 +36,7 @@ export default function Dropdown({ value, options, onChange,label,placeHolder }:
   console.log('Selected:', selected, 'Value:', value);
 
   return (
-    <Field>
+    <Field className="w-full">
       {label && <Label className=" block text-sm/6 font-medium text-gray-800 pb-2">{label}</Label>}
       <Listbox value={selected} onChange={handleChange}>
         {({ open }) => (

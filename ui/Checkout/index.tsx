@@ -20,6 +20,7 @@ import { useParams } from "next/navigation";
 import TextBox from "../../ui/TextBox";
 import CheckBox from "../../ui/CheckBox";
 import Dropdown, { DropdownOption } from "../../ui/Dropdown";
+import { getDropdowns } from "../../api/dropdown";
 
 interface CartItemProps {
   item: CartItem;
@@ -89,8 +90,14 @@ const CheckoutSteps = () => {
   const [completedSteps, setCompletedSteps] = useState<stepType[]>([]);
   const[isSameAsAddress, setIsSameAsAddress] = useState(true);
   const [deliveryCountry, setDeliveryCountry] = useState<DropdownOption>();
+  const Countries  = useNextshopApiSelector(state => state.dropdown.Countries.dropdown);
   const { type } = useParams() as CheckoutParams;
-
+  const countriesOptions = Countries.map<DropdownOption>(x => ({label: x.name, value:x.id}))
+const dispatch = useNextshopApiDispatch();
+  useEffect(()=>{
+    console.log('calling get countires');
+    dispatch(getDropdowns(['Countries']))
+  },[])
   const completeDetails = () => {
       if (!completedSteps.includes("details")) {
           setCompletedSteps(prev => [...prev, "details"]);
@@ -138,7 +145,6 @@ const CheckoutSteps = () => {
               )}
               {openSteps.includes("details") && !completedSteps.includes("details") && (
                   <div className="flex flex-col gap-4">
-                    <Dropdown label='Land' placeHolder="Välj land" options={[{label:'test',value:'test'},{label:'test 2',value:'test2'}]} value={deliveryCountry?.value} onChange={setDeliveryCountry}/>
                       <TextBox label="E-postadress" />
                       <h2 className="font-bold text-black">Leveransadress</h2>
                       <div className="flex gap-4 items-center w-full">
@@ -151,6 +157,9 @@ const CheckoutSteps = () => {
                       <div className="flex gap-4 items-center w-full">
                           <TextBox label="Postnummer" />
                           <TextBox label="Ort" />
+                      </div>
+                      <div className="flex gap-4 items-center w-full">
+                      <Dropdown label='Land' placeHolder="Välj land" options={countriesOptions} value={deliveryCountry?.value} onChange={setDeliveryCountry}/>
                       </div>
                       <div className="flex gap-4 items-center w-full">
                           <CheckBox onChange={setIsSameAsAddress} checked={isSameAsAddress} label="Faktureringsadressen är samma som leveransadressen" />
@@ -168,6 +177,9 @@ const CheckoutSteps = () => {
                       <div className="flex gap-4 items-center w-full">
                           <TextBox label="Postnummer" />
                           <TextBox label="Ort" />
+                      </div>
+                      <div className="flex gap-4 items-center w-full">
+                      <Dropdown label='Land' placeHolder="Välj land" options={countriesOptions} value={deliveryCountry?.value} onChange={setDeliveryCountry}/>
                       </div>
                         </div>}
                       <button
