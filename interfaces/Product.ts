@@ -1,3 +1,4 @@
+import { ProductImage } from './ProductImage';
 import {ProductInventory} from './ProductInventory'
 import {ProductVariant} from './ProductVariant'
 export interface Product {
@@ -22,4 +23,5 @@ export interface Product {
     imgAlt?: string;
     inventories:ProductInventory[];
     variants:ProductVariant[]
+    images:ProductImage[];
 }

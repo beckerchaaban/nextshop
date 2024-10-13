@@ -6,27 +6,21 @@ import { createCartItem } from "../../api/cart";
 import { CartItemCreate } from "../../interfaces/CartItem";
 import QuantityField from "../QuantityField";
 import { ProductInventory } from "../../interfaces/ProductInventory";
-import {  CaretRight, Plus, Warehouse, X } from "@phosphor-icons/react";
+import { CaretRight, Plus, Warehouse, X } from "@phosphor-icons/react";
 import Divider from "../Divider";
-import VariantSelector from '../VariantSelector';
+import VariantSelector from "../VariantSelector";
+import { ProductImage as IProductImage } from "interfaces/ProductImage";
+import Carousel from "../../ui/Carousel";
 // Product Image Component
-const ProductImage: React.FC<{ src?: string; alt?: string }> = ({
-  src,
-  alt,
-}) => {
+
+const ProductImage = ({ ...props }: IProductImage) => {
   return (
     <div className="flex justify-center w-full">
-      {src ? (
-        <img
-          src={src}
-          alt={alt}
-          className="rounded-lg shadow-lg w-full max-w-lg"
-        />
-      ) : (
-        <div className="flex items-center justify-center w-full max-w-lg h-64 bg-gray-200 rounded-lg shadow-lg">
-          <span className="text-gray-500">Image Not Available</span>
-        </div>
-      )}
+      <img
+        src={props.url}
+        alt={props.alternativeText ?? ""}
+        className="rounded-lg shadow-lg w-full max-w-lg"
+      />
     </div>
   );
 };
@@ -115,7 +109,7 @@ const ProductDetails: React.FC<{
   onAddToCart: (productId: CartItemCreate) => void;
 }> = ({ data, onAddToCart }) => {
   const [quantity, setQuantity] = useState(1);
-  const [selectedVariants, setSelectedVariants] = useState<string[]>([])
+  const [selectedVariants, setSelectedVariants] = useState<string[]>([]);
   const Cart = useNextshopApiSelector((state) => state.cart.Cart);
   const handleAddToCart = () => {
     onAddToCart({ productId: data.id, quantity, selectedVariants });
@@ -125,8 +119,8 @@ const ProductDetails: React.FC<{
   }, [Cart.cartItems.length]);
   return (
     <div className="mt-4 w-2/5 p-8 bg-slate-200">
-       <h1 className="text-2xl font-semibold">{data.name}</h1>
-       <p className="mt-2 text-gray-600">{data.description}</p>
+      <h1 className="text-2xl font-semibold">{data.name}</h1>
+      <p className="mt-2 text-gray-600">{data.description}</p>
       <p className="text-xl font-bold pb-4">{data.price}:-</p>
       <InventoryStatus inventories={data.inventories} />
       <div className="flex gap-4 pt-4">
@@ -136,12 +130,15 @@ const ProductDetails: React.FC<{
           className="bg-blue-600 text-white py-2 px-6 w-full font-semibold text-sm hover:bg-blue-700 h-16 transition rounded flex justify-between items-center"
           disabled={!data.isPurchasable}
         >
-         <span> Lägg till i Varukorgen</span>
-         <Plus size={24} />
+          <span> Lägg till i Varukorgen</span>
+          <Plus size={24} />
         </button>
       </div>
       <Divider />
-      <VariantSelector variants={data.variants} onSelect={setSelectedVariants}/>
+      <VariantSelector
+        variants={data.variants}
+        onSelect={setSelectedVariants}
+      />
     </div>
   );
 };
@@ -158,10 +155,15 @@ const ProductPage: React.FC<{ data: Product }> = ({ data }) => {
   return (
     <div className="max-w-7xl mx-auto p-4 flex gap-4 w-full">
       <div className="flex flex-col gap-4 mt-4 w-3/5">
-        <ProductImage
-          src={data.imgUrl}
-          alt={data.imgAlt || data.name || "Product Image"}
-        />
+        { !data.images || data.images.length === 0 ? (
+          <div className="flex items-center justify-center w-full max-w-lg h-64 bg-gray-200 rounded-lg shadow-lg">
+            <span className="text-gray-500">Image Not Available</span>
+          </div>
+        ) : data.images.length === 1 ? (
+          <ProductImage {...data.images[0]} />
+        ) : (
+          <Carousel images={data.images}/>
+        )}
       </div>
 
       <ProductDetails data={data} onAddToCart={handleAddToCart} />
