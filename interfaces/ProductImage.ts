@@ -7,4 +7,5 @@ export interface ProductImage {
     isPublished: boolean;
     mediaType: string;
     encoding: string;
+    sortOrder:number;
 }
