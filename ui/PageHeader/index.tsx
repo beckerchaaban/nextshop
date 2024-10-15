@@ -7,6 +7,7 @@ import {
 import Link from "next/link";
 import { Logo } from "../Logo";
 import { HeaderSearchBox } from "../HeaderSearchBox";
+import HeaderCategoryMenu from "../HeaderCategoryMenu";
 export interface MenuItemProps {
   to: string;
   label: React.ReactNode;
@@ -65,8 +66,12 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
           <>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex justify-between h-20 items-center">
+                <Link href="/">
                 <Logo />
-                <div className="px-8 w-full">
+                </Link>
+               
+                <div className="px-8 w-full flex gap-4">
+                  <HeaderCategoryMenu />
                   <HeaderSearchBox />
                 </div>
                 <div className="flex space-x-4 gap-4">

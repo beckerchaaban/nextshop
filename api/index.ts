@@ -3,13 +3,15 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import * as Products from './products';
 import * as Cart from './cart';
 import * as Dropdown from './dropdown';
+import * as Categories from './categories';
 import { configureStore } from '@reduxjs/toolkit';
 
 export const store = configureStore({
     reducer: {
         products: Products.reducer,
         cart: Cart.reducer,
-        dropdown: Dropdown.reducer
+        dropdown: Dropdown.reducer,
+        categories:Categories.reducer
     }})
 
 export interface AppThunkAction<TAction> {

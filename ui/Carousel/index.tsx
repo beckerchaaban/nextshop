@@ -25,7 +25,7 @@ export default ({ images }: CarouselProps) => {
       <DotGroup>
         <div className="flex gap-2 flex-col">
           {images?.sort((a, b) => a.sortOrder - b.sortOrder)?.map((image, i) => (
-            <Dot slide={i}>
+            <Dot slide={i} key={i}>
               <div
                 className="w-16 h-16 bg-cover bg-center border border-slate-400"
                 style={{ backgroundImage: `url(${image.url ?? ""})` }}
@@ -36,7 +36,7 @@ export default ({ images }: CarouselProps) => {
       </DotGroup>
       <Slider className="w-full">
         {images?.sort((a, b) => a.sortOrder - b.sortOrder)?.map((image, i) => (
-          <Slide index={i}>
+          <Slide index={i} key={i}>
             <img className="w-full" src={image.url ?? ""}  alt={image.alternativeText}/>
           </Slide>
         ))}
