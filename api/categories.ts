@@ -24,6 +24,7 @@ export const defaultCategory: Category = {
   createdAt:'',
   createdBy:'',
   description:'',
+  url:'',
   id:'',
   lastModifiedAt:'',
   modifiedBy:'',

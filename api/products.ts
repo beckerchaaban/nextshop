@@ -69,10 +69,20 @@ export const reducer: Reducer<ProductsState> = (state: ProductsState | undefined
 };
 
 // Thunk function to fetch all products
-export const getProducts = (): AppThunkAction<KnownAction> => {
+export const getProducts = (url:string): AppThunkAction<KnownAction> => {
   return async (dispatch, getState) => {
     try {
-      const response = await client.get('/products/')  as _ResultResponse<Product[]>;
+      const response = await client.get(`/products/${url}`)  as _ResultResponse<Product[]>;
+      dispatch({ type: 'api/getProducts', products: response.result ?? [] }); 
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  };
+};
+export const getSubProducts = (url:string): AppThunkAction<KnownAction> => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await client.get(`/products/getSub/${url}`)  as _ResultResponse<Product[]>;
       dispatch({ type: 'api/getProducts', products: response.result ?? [] }); 
     } catch (error) {
       console.error('Error fetching products:', error);

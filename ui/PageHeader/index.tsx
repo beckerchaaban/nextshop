@@ -71,7 +71,6 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
                 </Link>
                
                 <div className="px-8 w-full flex gap-4">
-                  <HeaderCategoryMenu />
                   <HeaderSearchBox />
                 </div>
                 <div className="flex space-x-4 gap-4">
@@ -97,6 +96,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
                   </DisclosureButton>
                 </div>
               </div>
+              <HeaderCategoryMenu />
             </div>
             <DisclosurePanel className="md:hidden">
               <div className="bg-white shadow">

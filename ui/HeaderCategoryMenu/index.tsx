@@ -32,7 +32,7 @@ console.log('category', categories);
             <Menu as="div">
             <Link
                   key={category.id}
-                  href={`/category/${category.id}`}
+                  href={`/${category.url}`}
                   className={`block px-2 py-1 text-gray-800 hover:bg-gray-200`}
                 >
                   {category.name} {/* Displaying the subcategory name */}
@@ -50,7 +50,7 @@ console.log('category', categories);
               .map((subCategory) => (
                 <Link
                   key={subCategory.id}
-                  href={`/category/${subCategory.id}`}
+                  href={`/${categories.find(x => x.id === subCategory.parentId)?.url ?? ''}/${subCategory.url}`}
                   className={`block px-4 py-2 text-gray-800 hover:bg-gray-200`}
                 >
                   {subCategory.name} {/* Displaying the subcategory name */}
