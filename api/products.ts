@@ -1,7 +1,7 @@
 
 import { client } from './client';
 import { AppThunkAction } from '.';
-import { Action, Reducer } from '@reduxjs/toolkit';
+import { Action, createAsyncThunk, Reducer } from '@reduxjs/toolkit';
 import { Product } from '../interfaces/Product';
 import { _ResultResponse } from '../interfaces/_ResultResponse';
 export interface ProductsState {
@@ -69,26 +69,27 @@ export const reducer: Reducer<ProductsState> = (state: ProductsState | undefined
 };
 
 // Thunk function to fetch all products
-export const getProducts = (url:string): AppThunkAction<KnownAction> => {
-  return async (dispatch, getState) => {
+export const getProducts = createAsyncThunk<Product[], { category: string; subCategories: string[]|undefined }>(
+  'products/getProducts',
+  async ({ category, subCategories }) => {
+    const response = await client.get(`/products/${category}?subCategories=${subCategories && subCategories?.join(',')}`) as _ResultResponse<Product[]>;
+    return response.result ?? [];
+  }
+);
+
+export const getSubProducts = createAsyncThunk<Product[] | undefined, string>(
+  'products/getsSubProducts',
+  async (url: string, { rejectWithValue }) => {
     try {
-      const response = await client.get(`/products/${url}`)  as _ResultResponse<Product[]>;
-      dispatch({ type: 'api/getProducts', products: response.result ?? [] }); 
+      const response = await client.get(`/products/getSub//${url}`) as _ResultResponse<Product[]>;
+      return response.result ?? undefined; // Return the category or undefined
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error('Error fetching category:', error);
+      return rejectWithValue(error); // Handle errors
     }
-  };
-};
-export const getSubProducts = (url:string): AppThunkAction<KnownAction> => {
-  return async (dispatch, getState) => {
-    try {
-      const response = await client.get(`/products/getSub/${url}`)  as _ResultResponse<Product[]>;
-      dispatch({ type: 'api/getProducts', products: response.result ?? [] }); 
-    } catch (error) {
-      console.error('Error fetching products:', error);
-    }
-  };
-};
+  }
+);
+
 
 // Thunk function to fetch a single product by ID
 export const getProduct = (productId: string): AppThunkAction<KnownAction> => {

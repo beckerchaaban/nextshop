@@ -9,4 +9,5 @@ export interface Category{
     createdBy: string;
     lastModifiedAt: string;
     modifiedBy: string;
+    subCategories: Category[];
 }

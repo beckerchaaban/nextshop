@@ -1,7 +1,7 @@
 
 import { client } from './client';
 import { AppThunkAction } from '.';
-import { Action, Reducer } from '@reduxjs/toolkit';
+import { Action, createAsyncThunk, Reducer } from '@reduxjs/toolkit';
 import { Category } from '../interfaces/Category';
 import { _ResultResponse } from '../interfaces/_ResultResponse';
 
@@ -31,6 +31,7 @@ export const defaultCategory: Category = {
   name:'',
   sortOrder:0,
   parentId:'',
+  subCategories:[]
 };
 
 // Initial state
@@ -82,3 +83,16 @@ export const getCategory = (categoryId: string): AppThunkAction<KnownAction> => 
     }
   };
 };
+
+export const getCategoryByUrl = createAsyncThunk<Category | undefined, string>(
+  'category/getByUrl',
+  async (url: string, { rejectWithValue }) => {
+    try {
+      const response = await client.get(`/category/ByUrl/${url}`) as _ResultResponse<Category>;
+      return response.result ?? undefined; // Return the category or undefined
+    } catch (error) {
+      console.error('Error fetching category:', error);
+      return rejectWithValue(error); // Handle errors
+    }
+  }
+);
