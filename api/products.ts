@@ -81,7 +81,7 @@ export const getSubProducts = createAsyncThunk<Product[] | undefined, string>(
   'products/getsSubProducts',
   async (url: string, { rejectWithValue }) => {
     try {
-      const response = await client.get(`/products/getSub//${url}`) as _ResultResponse<Product[]>;
+      const response = await client.get(`/products/getSub/${url}`) as _ResultResponse<Product[]>;
       return response.result ?? undefined; // Return the category or undefined
     } catch (error) {
       console.error('Error fetching category:', error);
